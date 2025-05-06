@@ -1,0 +1,18 @@
+# Ignore node dependencies
+node_modules/
+
+# Ignore OS and temp files
+*.lnk
+*.zip
+*.exe
+*.docx
+*.pdf
+*.bat
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore folders outside your project accidentally picked up
+../../../*
+../../*
+../*
