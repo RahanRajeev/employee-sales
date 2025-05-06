@@ -10,7 +10,7 @@ const Editprofile = ({name,email,phone,gender,image,setname,setemail,setgender,s
       e.preventDefault()
       const uid=sessionStorage.getItem('uid')
       const response=await axios.post("http://localhost:7000/user/editprofile",
-      {name,email,phone,gender,uid,image},
+      {name,email,gender,phone,uid,image},
       {headers:{'Content-Type':'multipart/form-data'}}
       
       )

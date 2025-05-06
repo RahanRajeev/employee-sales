@@ -1,49 +1,32 @@
 import axios from 'axios';
-import React, {useEffect, useState} from 'react'
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import Editprofile from './Editprofile';
 
-
-
-
 const Viewprofile = () => {
-    const[name,setname]=useState('')
-
-    const profile=async()=>{
-        const uid=sessionStorage.getItem('uid')
-        const res=await axios.get("http://localhost:7000/user/viewprofile",{params:{uid}})
-        console.log(res.data);
-        setname(res.data.data.name)
-        setemail(res.data.data.email)
-        setgender(res.data.data.gender)
-        setphone(res.data.data.phone)
-        setimage(res.data.data.image)
-    }
-    const[email,setemail]=useState('')
-    const[gender,setgender]=useState('')
-    const[phone,setphone]=useState('')
-    const[image,setimage]=useState('')
+    const [name, setname] = useState('');
+    const [email, setemail] = useState('');
+    const [gender, setgender] = useState('');
+    const [phone, setphone] = useState('');
+    const [image, setimage] = useState('');
     const [showEdit, setShowEdit] = useState(false);
 
+    const profile = async () => {
+        const uid = sessionStorage.getItem('uid');
+        const res = await axios.get("http://localhost:7000/user/viewprofile", { params: { uid } });
+        setname(res.data.data.name);
+        setemail(res.data.data.email);
+        setgender(res.data.data.gender);
+        setphone(res.data.data.phone);
+        setimage(res.data.data.image);
+    };
 
-    useEffect(()=>{
+    useEffect(() => {
         profile();
-    },[])
+    }, []);
 
-
-  
-
-    
-    
-  return (
-
-    
-    <div>
-        {showEdit ? (
+    return (
+        <div style={styles.profileContainer}>
+            {showEdit ? (
                 <Editprofile
                     name={name}
                     email={email}
@@ -55,23 +38,98 @@ const Viewprofile = () => {
                     setgender={setgender}
                     setphone={setphone}
                     setimage={setimage}
-
-                    setShowEdit={setShowEdit} // Pass state toggle function
+                    setShowEdit={setShowEdit}
                 />
             ) : (
-                <Card style={{ width: '18rem' }} className='sprofile'>
-                    <Card.Img variant="top" src={`http://localhost:7000/${image}`} />
-                    <Card.Body>
-                        <Card.Text>Name: {name}</Card.Text>
-                        <Card.Text>Email: {email}</Card.Text>
-                        <Card.Text>Gender: {gender}</Card.Text>
-                        <Card.Text>Phone: {phone}</Card.Text>
-                        <Button variant="primary" onClick={() => setShowEdit(true)}>Edit</Button>
-                    </Card.Body>
-                </Card>
+                <div style={styles.profileCard}>
+                    <div style={styles.imageContainer}>
+                        <img 
+                            src={image?.startsWith("http") ? image : `http://localhost:7000/${image}`} 
+                            alt="Profile" 
+                            style={styles.profileImage} 
+                            crossOrigin="anonymous" 
+                            referrerPolicy="no-referrer"
+                        />
+                    </div>
+                    <h2 style={styles.profileName}>{name}</h2>
+                    <p style={styles.profileText}><strong>Email:</strong> {email}</p>
+                    <p style={styles.profileText}><strong>Gender:</strong> {gender}</p>
+                    <p style={styles.profileText}><strong>Phone:</strong> {phone}</p>
+                    <button style={styles.editBtn} onClick={() => setShowEdit(true)}>Edit Profile</button>
+                </div>
             )}
-    </div>
-  )
-}
+        </div>
+    );
+};
 
-export default Viewprofile
+// Internal CSS (JS Object)
+const styles = {
+    profileContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        background: 'linear-gradient(135deg, #667eea, #764ba2)',
+    },
+    profileCard: {
+        width: '320px',
+        background: '#fff',
+        borderRadius: '15px',
+        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+        padding: '20px',
+        textAlign: 'center',
+        position: 'relative',
+        animation: 'fadeIn 1s ease-in-out',
+    },
+    imageContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: '10px',
+    },
+    profileImage: {
+        width: '120px',
+        height: '120px',
+        borderRadius: '50%',
+        objectFit: 'cover',
+        border: '4px solid #667eea',
+        transition: 'transform 0.3s ease-in-out',
+    },
+    profileName: {
+        margin: '10px 0',
+        fontSize: '22px',
+        color: '#333',
+    },
+    profileText: {
+        fontSize: '16px',
+        color: '#555',
+    },
+    editBtn: {
+        background: '#667eea',
+        border: 'none',
+        padding: '10px 20px',
+        borderRadius: '25px',
+        color: 'white',
+        cursor: 'pointer',
+        transition: 'background 0.3s ease-in-out',
+        marginTop: '10px',
+    },
+};
+
+// Animation (Inject into Global Styles)
+const globalStyles = document.createElement('style');
+globalStyles.innerHTML = `
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+`;
+document.head.appendChild(globalStyles);
+
+export default Viewprofile;

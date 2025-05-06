@@ -21,33 +21,33 @@ const Adminhome = () => {
           </Nav>
           <Nav>
           <NavDropdown title="Manage" id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Budget</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Expense
-              </NavDropdown.Item>
+              <NavDropdown.Item href="/managecatagory">catagory</NavDropdown.Item>
+              <NavDropdown.Item href="/viewcategory">View catagory</NavDropdown.Item>
               
             </NavDropdown>
-            <NavDropdown title="Complaint" id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="/complaint">View Complaint</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                 Reply
-              </NavDropdown.Item>
-             
+            <NavDropdown title="View" id="collapsible-nav-dropdown">
+              <NavDropdown.Item href="/viewcomplaint">View Complaint</NavDropdown.Item>
+              <NavDropdown.Item href="/viewuser">View Users</NavDropdown.Item>
             </NavDropdown>
 
             <Nav.Link eventKey={2} href="/login" >
-              View Graph
+              Blocked Users
             </Nav.Link>
-            <Nav.Link eventKey={2} href="/login" >
-              Review
+            <Nav.Link eventKey={2} href="/viewreview" >
+              Reviews
             </Nav.Link>
             <Nav.Link eventKey={2} href="/adminchangepass" >
               Change Password
+            </Nav.Link>
+            <Nav.Link eventKey={2} href="/" >
+              Logout
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
+
+    
     </div>
   )
 }
